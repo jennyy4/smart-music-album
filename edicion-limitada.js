@@ -4,47 +4,47 @@
         {
             nombre: "Cerillas Pulso",
             precio: "10€",
-            imagen: "img/cerillas 1 web.png"
+            imagen: "img/cerillas 1 web.webp"
         },
         {
             nombre: "Cerillas Vestigios",
             precio: "10€",
-            imagen: "img/cerillas 2 web.png"
+            imagen: "img/cerillas 2 web.webp"
         },
         {
             nombre: "Cuaderno Pulso",
             precio: "15€",
-            imagen: "img/cuaderno 1 web.png"
+            imagen: "img/cuaderno 1 web.webp"
         },
         {
             nombre: "Cuaderno Vestigios",
             precio: "15€",
-            imagen: "img/cuaderno 2 web.png"
+            imagen: "img/cuaderno 2 web.webp"
         },
         {
             nombre: "Lanyard Pulso",
             precio: "7€",
-            imagen: "img/Lanyard 1 web.png"
+            imagen: "img/Lanyard 1 web.webp"
         },
         {
             nombre: "Lanyard Vestigios",
             precio: "7€",
-            imagen: "img/Lanyard 2 web.png"
+            imagen: "img/Lanyard 2 web.webp"
         },
         {
             nombre: "Magnet Pulso",
             precio: "5€",
-            imagen: "img/magnet 1 web.png"
+            imagen: "img/magnet 1 web.webp"
         },
         {
             nombre: "Magnet Vestigios",
             precio: "5€",
-            imagen: "img/magnet 2 web.png"
+            imagen: "img/magnet 2 web.webp"
         },
         {
             nombre: "Vela Vestigios/Pulso",
             precio: "25€",
-            imagen: "img/vela web.png"
+            imagen: "img/vela web.webp"
         }
     ];
 
