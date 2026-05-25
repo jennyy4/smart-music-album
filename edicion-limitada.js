@@ -48,6 +48,12 @@
         }
     ];
 
+    // Precargar todas las imágenes al inicio
+productos.forEach(function(producto) {
+    const img = new Image();
+    img.src = producto.imagen;
+});
+
     const carrusel = document.getElementById("el-carrusel");
     const nombre = document.getElementById("el-nombre");
     const precio = document.getElementById("el-precio");
