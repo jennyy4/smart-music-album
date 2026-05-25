@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ================================================================
+   SMART MUSIC ALBUM – galeria.css
+   Carrusel vertical apilado + lightbox
+   ================================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --font-title: 'Urbanist', sans-serif;
+    --font-body: 'Urbanist', sans-serif;
+    --card-w: 380px;
+    --card-h: 480px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 400;
+    background: #f8ffff;
+    color: #111;
+    overflow: hidden;
+}
+
+/* ── Cabecera ── */
+.alb-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.4rem 2rem;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.alb-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #111;
+}
+
+/* ── Escenario: las tarjetas se posicionan con JS dentro de aquí ── */
+.alb-stage {
+    position: fixed;
+    inset: 0;
+    /* el transform translateY se aplica desde JS */
+}
+
+/* ── Tarjeta ── */
+.alb-card {
+    position: absolute;
+    width: var(--card-w);
+    height: var(--card-h);
+    border-radius: 18px;
+    overflow: hidden;
+    will-change: transform, opacity;
+    transition:
+        transform 0.45s var(--ease),
+        opacity 0.45s var(--ease),
+        box-shadow 0.45s var(--ease);
+    cursor: default;
+
+    /* inactiva: más pequeña y transparente */
+    transform: scale(0.82);
+    opacity: 0.4;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.alb-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Tarjeta activa */
+.alb-card.is-active {
+    transform: scale(1);
+    opacity: 1;
+    cursor: pointer;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+}
+
+/* ================================================================
+   LIGHTBOX
+   ================================================================ */
+.alb-lightbox {
+    position: fixed;
+    inset: 0;
+    background: #f8ffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+}
+
+.alb-lightbox.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.alb-lb-img-wrap {
+    max-width: 70vw;
+    max-height: 85vh;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+
+.alb-lb-img-wrap img {
+    display: block;
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 18px;
+}
+
+/* Flechas */
+.alb-lb-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 4rem;
+    color: #111;
+    cursor: pointer;
+    padding: 0 1.5rem;
+    line-height: 1;
+    opacity: 0.4;
+    transition: opacity 0.2s, transform 0.2s;
+    user-select: none;
+}
+
+.alb-lb-arrow:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.15);
+}
+
+.alb-lb-prev {
+    left: 1rem;
+}
+
+.alb-lb-next {
+    right: 1rem;
+}
+
+/* Cerrar */
+.alb-lb-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #111;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.alb-lb-close:hover {
+    opacity: 1;
+}
+
+/* Botón descargar */
+.alb-lb-download {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.alb-lb-download svg {
+    width: 22px;
+    height: 22px;
+}
+
+.alb-lb-download:hover {
+    background: #111;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    :root {
+        --card-w: 280px;
+        --card-h: 360px;
+    }
+
+    .alb-lb-img-wrap {
+        max-width: 90vw;
+    }
+}

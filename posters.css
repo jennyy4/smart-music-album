@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ================================================================
+   SMART MUSIC ALBUM – posters.css
+   Mazo 3D apilado: cartas centradas, la delantera "cae" al navegar
+   ================================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --font-title: 'Urbanist', sans-serif;
+    --font-body: 'Urbanist', sans-serif;
+    --card-w: 300px;
+    --card-h: 420px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 400;
+    background: #f8ffff;
+    color: #111;
+    overflow: hidden;
+}
+
+/* ── Cabecera ── */
+.pst-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.4rem 2rem;
+    z-index: 100;
+    background: #f8ffff;
+}
+
+.pst-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #111;
+}
+
+/* ── Escenario con perspectiva ── */
+.pst-stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+}
+
+/* ── Mazo: preserve-3d para que las cartas se apilen en Z ── */
+.pst-deck {
+    position: relative;
+    width: var(--card-w);
+    height: var(--card-h);
+    transform-style: preserve-3d;
+}
+
+/* ── Tarjeta individual ── */
+.pst-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--card-w);
+    height: var(--card-h);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    /* La transición se aplica cuando NO está animando la caída */
+    transition:
+        transform 0.55s var(--ease),
+        opacity 0.45s var(--ease),
+        box-shadow 0.55s var(--ease);
+}
+
+.pst-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ── Animación de caída: la carta delantera rota hacia delante y se aleja ── */
+@keyframes fall-down {
+    0% {
+        transform: var(--fall-start);
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(130vh) rotate(8deg);
+        opacity: 0;
+    }
+}
+
+.pst-card.is-falling {
+    animation: fall-down 0.65s cubic-bezier(0.4, 0, 0.9, 0.7) forwards;
+    pointer-events: none;
+}
+
+/* ── Posiciones del mazo (asignadas por JS via data-pos) ──
+   pos=0 : carta delantera (la activa)
+   pos=1 : segunda carta
+   pos=2 : tercera carta
+   pos=3 : cuarta carta (casi no se ve)
+*/
+
+.pst-card[data-pos="0"] {
+    transform: translateZ(0px) rotateX(0deg);
+    opacity: 1;
+    z-index: 10;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.30);
+}
+
+.pst-card[data-pos="1"] {
+    transform: translateZ(-28px) rotateX(4deg) translateY(-6px);
+    opacity: 1;
+    z-index: 9;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.22);
+}
+
+.pst-card[data-pos="2"] {
+    transform: translateZ(-56px) rotateX(8deg) translateY(-12px);
+    opacity: 0.92;
+    z-index: 8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+.pst-card[data-pos="3"] {
+    transform: translateZ(-84px) rotateX(12deg) translateY(-18px);
+    opacity: 0.75;
+    z-index: 7;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+/* Las cartas "fuera" del mazo visible */
+.pst-card[data-pos="hidden"] {
+    transform: translateZ(-140px) rotateX(16deg) translateY(-24px);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ── Hover sobre la carta activa ── */
+.pst-card[data-pos="0"]:hover {
+    transform: translateZ(20px) rotateX(0deg);
+    box-shadow: 0 36px 90px rgba(0, 0, 0, 0.36);
+}
+
+/* ── Lightbox ── */
+.pst-lightbox {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+}
+
+.pst-lightbox.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.pst-lb-img-wrap {
+    max-width: 70vw;
+    max-height: 85vh;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+
+.pst-lb-img-wrap img {
+    display: block;
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 18px;
+}
+
+/* Flechas del lightbox */
+.pst-lb-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 4rem;
+    color: #111;
+    cursor: pointer;
+    padding: 0 1.5rem;
+    line-height: 1;
+    opacity: 0.4;
+    transition: opacity 0.2s, transform 0.2s;
+    user-select: none;
+}
+
+.pst-lb-arrow:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.15);
+}
+
+.pst-lb-prev {
+    left: 1rem;
+}
+
+.pst-lb-next {
+    right: 1rem;
+}
+
+.pst-lb-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #111;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.pst-lb-close:hover {
+    opacity: 1;
+}
+
+.pst-lb-download {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.pst-lb-download svg {
+    width: 22px;
+    height: 22px;
+}
+
+.pst-lb-download:hover {
+    background: #111;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    :root {
+        --card-w: 220px;
+        --card-h: 310px;
+    }
+}

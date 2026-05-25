@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ==============================================================
+   Diseño premium – Smart Music Album Home
+   ============================================================== */
+
+/* 1. Variables de color y tipografía */
+:root {
+    --font-title: 'Urbanist', sans-serif;
+    --font-body: 'Urbanist', sans-serif;
+    --bg-primary: #111;
+    --text-primary: #fff;
+    --card-scale-inactive: 0.85;
+    --card-opacity-inactive: 0.45;
+    --shine-color: rgba(255, 255, 255, 0.25);
+}
+
+/* 2. Reset y base */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 400;
+    background: #f8ffff;
+    /* white background */
+    color: #111;
+    /* dark text for contrast */
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 3. Header – solo título con líneas diagonales rojas */
+.sma-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: flex-start;
+    z-index: 100;
+    background: #f8ffff;
+}
+
+.sma-logo h1 {
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: #111;
+    position: relative;
+    padding-left: 2rem;
+}
+
+
+
+/* 4. Contenedor principal */
+.sma-main {
+    width: 100%;
+    height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 5. Carrusel – sin padding que impida centrar la primera tarjeta */
+.sma-track-container {
+    width: 100%;
+}
+
+.sma-track {
+    display: flex;
+    gap: 1.8rem;
+    /* separación entre tarjetas */
+    will-change: transform;
+}
+
+/* 6. Tarjetas */
+.sma-card {
+    width: 320px;
+    height: 460px;
+    flex-shrink: 0;
+    position: relative;
+    perspective: 1000px;
+    opacity: var(--card-opacity-inactive);
+    transform: scale(var(--card-scale-inactive));
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sma-card.is-active {
+    opacity: 1;
+    transform: scale(1.08);
+    /* slightly larger central card */
+    z-index: 5;
+}
+
+/* 7. Fondo de imágenes (rectángulos) */
+.sma-card-bg {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #222;
+    position: relative;
+}
+
+.sma-card-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 8. Efecto shine (luz móvil) */
+.sma-card-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), var(--shine-color), transparent 60%);
+    pointer-events: none;
+    transition: background 0.2s;
+}
+
+/* 9. Etiqueta inferior de tarjeta */
+.sma-card-label {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 10. Media queries – adaptativo */
+@media (max-width:768px) {
+    .sma-card {
+        width: 260px;
+        height: 380px;
+    }
+}
+
+@media (max-width:480px) {
+    .sma-card {
+        width: 220px;
+        height: 320px;
+    }
+}

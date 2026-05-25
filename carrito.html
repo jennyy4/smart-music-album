@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Music Album – Carrito</title>
+
+    <link rel="stylesheet" href="carrito.css">
+</head>
+
+<body>
+
+    <section class="bag-page">
+
+        <!-- Botón volver -->
+        <a class="bag-side-button bag-close" href="edicion-limitada.html" aria-label="Volver">
+            ×
+        </a>
+
+        <!-- Tarjeta principal -->
+        <main class="bag-card">
+
+            <header class="bag-header">
+                <h1>MY BAG (<span id="bag-count">0</span>)</h1>
+
+                <div class="bag-progress">
+                    <div class="bag-progress-fill" id="bag-progress-fill"></div>
+                </div>
+
+                <p class="bag-shipping" id="bag-shipping">
+                    Spend another 60€ to receive FREE SHIPPING
+                </p>
+            </header>
+
+            <!-- Productos del carrito -->
+            <section class="bag-products" id="bag-products">
+                <!-- El JS mete aquí los productos -->
+            </section>
+
+            <!-- Recomendaciones -->
+            <section class="bag-kit">
+                <h2>BUILD YOUR KIT</h2>
+
+                <div class="bag-kit-list" id="bag-kit-list">
+                    <!-- El JS mete aquí recomendaciones -->
+                </div>
+            </section>
+
+            <!-- Subtotal -->
+            <footer class="bag-footer">
+                <div class="bag-subtotal">
+                    <span>SUBTOTAL:</span>
+                    <strong id="bag-subtotal">0€</strong>
+                </div>
+
+                <button class="bag-checkout" type="button">
+                    CHECKOUT
+                </button>
+            </footer>
+
+        </main>
+
+    </section>
+
+    <script src="carrito.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Music Album – Edición Limitada</title>
+
+    <link rel="stylesheet" href="edicion-limitada.css">
+</head>
+
+<body>
+
+    <section class="edicion-limitada">
+
+        <!-- Botón carrito -->
+        <button class="el-cart-button" id="el-cart-button" type="button" aria-label="Abrir carrito">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6h15l-1.5 8.5H8L6 3H3" />
+                <circle cx="9" cy="20" r="1.5" />
+                <circle cx="18" cy="20" r="1.5" />
+            </svg>
+            <span class="el-cart-count" id="el-cart-count">0</span>
+        </button>
+
+        <!-- Panel carrito -->
+        <aside class="el-cart-panel" id="el-cart-panel" aria-hidden="true">
+
+            <div class="el-cart-head">
+                <p>Carrito</p>
+                <button id="el-cart-close" type="button" aria-label="Cerrar carrito">×</button>
+            </div>
+
+            <div class="el-cart-items" id="el-cart-items">
+                <p class="el-cart-empty">Tu carrito está vacío</p>
+            </div>
+
+            <div class="el-cart-footer">
+
+                <div class="el-cart-total-line">
+                    <span>Total</span>
+                    <strong id="el-cart-total">0€</strong>
+                </div>
+
+                <a class="el-cart-link" href="carrito.html">
+                    Ir al carrito
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- Mensaje añadido -->
+        <div class="el-toast" id="el-toast">Añadido al carrito</div>
+
+        <main class="el-main">
+
+            <div class="el-carrusel" id="el-carrusel">
+
+                <!-- Rectángulo central fijo, solo con trazo -->
+                <div class="el-marco"></div>
+
+                <!-- Objetos del carrusel -->
+                <div class="el-item" id="el-item-1">
+                    <img src="" alt="">
+                </div>
+
+                <div class="el-item" id="el-item-2">
+                    <img src="" alt="">
+                </div>
+
+                <div class="el-item" id="el-item-3">
+                    <img src="" alt="">
+                </div>
+
+                <div class="el-item" id="el-item-4">
+                    <img src="" alt="">
+                </div>
+
+            </div>
+
+            <!-- Nombre y precio -->
+            <div class="el-info">
+                <p id="el-nombre">Vela Vestigios</p>
+                <span>–</span>
+                <p id="el-precio">18€</p>
+            </div>
+
+            <!-- Puntitos -->
+            <div class="el-dots" id="el-dots"></div>
+
+        </main>
+
+    </section>
+
+    <script src="edicion-limitada.js"></script>
+</body>
+
+</html>

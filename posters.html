@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Music Album – Pósters.">
+    <title>Smart Music Album – Pósters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="posters.css">
+</head>
+
+<body>
+
+    <header class="pst-header">
+        <h1 class="pst-title">PÓSTERS</h1>
+    </header>
+
+    <div class="pst-stage" id="pst-stage">
+        <div class="pst-deck" id="pst-deck">
+            <div class="pst-card" data-index="0"><img src="img/poster-1.jpg" alt="Póster 1"></div>
+            <div class="pst-card" data-index="1"><img src="img/poster-2.jpg" alt="Póster 2"></div>
+            <div class="pst-card" data-index="2"><img src="img/poster-3.jpg" alt="Póster 3"></div>
+            <div class="pst-card" data-index="3"><img src="img/poster-4.jpg" alt="Póster 4"></div>
+            <div class="pst-card" data-index="4"><img src="img/poster-5.jpg" alt="Póster 5"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox (igual que galería, con flechas y descarga) -->
+    <div class="pst-lightbox" id="pst-lightbox" aria-hidden="true">
+        <button class="pst-lb-close" id="pst-lb-close" aria-label="Cerrar">&#x2715;</button>
+        <button class="pst-lb-arrow pst-lb-prev" id="pst-lb-prev" aria-label="Anterior">&#8249;</button>
+        <div class="pst-lb-img-wrap">
+            <img src="" alt="" id="pst-lb-img">
+        </div>
+        <button class="pst-lb-arrow pst-lb-next" id="pst-lb-next" aria-label="Siguiente">&#8250;</button>
+        <a class="pst-lb-download" id="pst-lb-download" download aria-label="Descargar póster">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+        </a>
+    </div>
+
+    <script src="posters.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Music Album – Explora la portada interactiva del álbum.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+    <title>Smart Music Album</title>
+
+    <link rel="stylesheet" href="pagina_inicial.css">
+</head>
+
+<body>
+
+    <section class="sma-inicio">
+
+        <div class="sma-portadas" tabindex="0">
+
+            <div class="sma-cover sma-cover-1">
+                <img src="img/portada-1.jpg" alt="Portada 1">
+            </div>
+
+            <div class="sma-cover sma-cover-2">
+                <img src="img/portada-2.jpg" alt="Portada 2">
+            </div>
+
+        </div>
+
+        <a class="sma-boton" href="home.html" id="btn-entrar">
+            Click para entrar
+        </a>
+
+    </section>
+
+    <script>
+        (function () {
+            var bloque = document.querySelector('.sma-portadas');
+            var pantalla = document.querySelector('.sma-inicio');
+
+            if (!bloque || !pantalla) return;
+
+            function cambiarEstado(segundoActivo) {
+                bloque.classList.toggle('is-swapped', segundoActivo);
+                pantalla.classList.toggle('fondo-claro', segundoActivo);
+            }
+
+            bloque.addEventListener('mousemove', function (e) {
+                var rect = bloque.getBoundingClientRect();
+                var mitad = rect.left + rect.width / 2;
+
+                cambiarEstado(e.clientX > mitad);
+            });
+
+            bloque.addEventListener('mouseleave', function () {
+                cambiarEstado(false);
+            });
+
+            bloque.addEventListener('touchmove', function (e) {
+                var touch = e.touches[0];
+                var rect = bloque.getBoundingClientRect();
+                var mitad = rect.left + rect.width / 2;
+
+                cambiarEstado(touch.clientX > mitad);
+            }, { passive: true });
+
+            bloque.addEventListener('touchend', function () {
+                cambiarEstado(false);
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

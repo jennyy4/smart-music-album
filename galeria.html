@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Music Album – Galería de imágenes.">
+    <title>Smart Music Album – Galería</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="galeria.css">
+</head>
+
+<body>
+
+    <header class="alb-header">
+        <h1 class="alb-title">GALERÍA</h1>
+    </header>
+
+    <!-- Escenario del carrusel apilado -->
+    <div class="alb-stage" id="alb-stage">
+
+        <div class="alb-card" data-index="0"><img src="img/album-1.jpg" alt="Imagen 1"></div>
+        <div class="alb-card" data-index="1"><img src="img/album-2.jpg" alt="Imagen 2"></div>
+        <div class="alb-card" data-index="2"><img src="img/album-3.jpg" alt="Imagen 3"></div>
+        <div class="alb-card" data-index="3"><img src="img/album-4.jpg" alt="Imagen 4"></div>
+        <div class="alb-card" data-index="4"><img src="img/album-5.jpg" alt="Imagen 5"></div>
+        <div class="alb-card" data-index="5"><img src="img/album-6.jpg" alt="Imagen 6"></div>
+        <div class="alb-card" data-index="6"><img src="img/album-7.jpg" alt="Imagen 7"></div>
+        <div class="alb-card" data-index="7"><img src="img/album-8.jpg" alt="Imagen 8"></div>
+        <div class="alb-card" data-index="8"><img src="img/album-9.jpg" alt="Imagen 9"></div>
+        <div class="alb-card" data-index="9"><img src="img/album-10.jpg" alt="Imagen 10"></div>
+        <div class="alb-card" data-index="10"><img src="img/album-11.jpg" alt="Imagen 11"></div>
+        <div class="alb-card" data-index="11"><img src="img/album-12.jpg" alt="Imagen 12"></div>
+        <div class="alb-card" data-index="12"><img src="img/album-13.jpg" alt="Imagen 13"></div>
+        <div class="alb-card" data-index="13"><img src="img/album-14.jpg" alt="Imagen 14"></div>
+        <div class="alb-card" data-index="14"><img src="img/album-15.jpg" alt="Imagen 15"></div>
+        <div class="alb-card" data-index="15"><img src="img/album-16.jpg" alt="Imagen 16"></div>
+        <div class="alb-card" data-index="16"><img src="img/album-17.jpg" alt="Imagen 17"></div>
+        <div class="alb-card" data-index="17"><img src="img/album-18.jpg" alt="Imagen 18"></div>
+        <div class="alb-card" data-index="18"><img src="img/album-19.jpg" alt="Imagen 19"></div>
+        <div class="alb-card" data-index="19"><img src="img/album-20.jpg" alt="Imagen 20"></div>
+
+    </div>
+
+    <!-- Lightbox -->
+    <div class="alb-lightbox" id="alb-lightbox" aria-hidden="true">
+        <button class="alb-lb-close" id="alb-lb-close" aria-label="Cerrar">&#x2715;</button>
+        <button class="alb-lb-arrow alb-lb-prev" id="alb-lb-prev" aria-label="Anterior">&#8249;</button>
+        <div class="alb-lb-img-wrap">
+            <img src="" alt="" id="alb-lb-img">
+        </div>
+        <button class="alb-lb-arrow alb-lb-next" id="alb-lb-next" aria-label="Siguiente">&#8250;</button>
+        <a class="alb-lb-download" id="alb-lb-download" download aria-label="Descargar imagen">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+        </a>
+    </div>
+
+    <script src="galeria.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Smart Music Album – Explora nuestra colección de álbumes inteligentes e interactivos.">
+    <title>Smart Music Album - Home</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+    <!-- Cabecera: solo título -->
+    <header class="sma-header">
+        <div class="sma-logo">
+            <h1>VESTIGIOS / PULSO</h1>
+        </div>
+    </header>
+
+    <!-- Contenedor principal (sin texto adicional) -->
+    <main class="sma-main">
+        <!-- Área de tarjetas -->
+        <div class="sma-track-container" id="track-container">
+            <div class="sma-track" id="cards-track">
+
+                <!-- Card 01 -->
+                <a href="spotify:playlist:00qyWEl9sxjheBjbVr4UmV"
+                    onclick="(function(e){e.preventDefault();var app='spotify:playlist:00qyWEl9sxjheBjbVr4UmV';var web='https://open.spotify.com/playlist/00qyWEl9sxjheBjbVr4UmV';window.location=app;setTimeout(function(){window.open(web,'_blank')},1200);})(event)"
+                    style="display:contents; text-decoration:none;">
+                    <div class="sma-card" data-index="1">
+                        <div class="sma-card-bg"><img src="img/azul-negro.png" alt="Album"></div>
+                        <span class="sma-card-label" style="color:#f8ffff;">ALBUM</span>
+                    </div>
+                </a>
+
+                <!-- Card 02 -->
+                <a href="galeria.html" style="display:contents; text-decoration:none;">
+                    <div class="sma-card" data-index="2">
+                        <div class="sma-card-bg"><img src="img/rojo-blanco.png" alt="Galeria"></div>
+                        <span class="sma-card-label" style="color:#111111;">GALERÍA</span>
+                    </div>
+                </a>
+
+                <!-- Card 03 -->
+                <a href="posters.html" style="display:contents; text-decoration:none;">
+                    <div class="sma-card" data-index="3">
+                        <div class="sma-card-bg"><img src="img/azul-negro.png" alt="Posters"></div>
+                        <span class="sma-card-label" style="color:#f8ffff;">POSTERS</span>
+                    </div>
+                </a>
+
+                <!-- Card 04 -->
+                <a href="edicion-limitada.html" style="display:contents; text-decoration:none;">
+                    <div class="sma-card" data-index="4">
+                        <div class="sma-card-bg"><img src="img/rojo-blanco.png" alt="Edicion limitada"></div>
+                        <span class="sma-card-label" style="color:#111111;">EDICIÓN LIMITADA</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="home.js"></script>
+</body>
+
+</html>

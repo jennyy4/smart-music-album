@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #f8ffff;
+    color: #111;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 400;
+}
+
+/* Página */
+.bag-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 48px 24px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fondo suave */
+.bag-page::before {
+    display: none;
+}
+
+/* Card principal */
+.bag-card {
+    width: min(720px, calc(100vw - 48px));
+    min-height: 780px;
+
+    background: #f8ffff;
+
+    border-radius: 26px;
+    border: 1.5px dashed #777;
+    box-shadow: none;
+
+    padding: 46px 52px;
+
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botón lateral */
+.bag-side-button {
+    position: fixed;
+    right: calc(50% - 430px);
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.bag-side-button:hover {
+    transform: scale(1.07);
+}
+
+.bag-close {
+    top: 84px;
+
+    background: #fe2b00;
+    color: #fff;
+
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* Header */
+.bag-header h1 {
+    font-size: 31px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+
+    margin-bottom: 28px;
+}
+
+.bag-progress {
+    width: 100%;
+    height: 9px;
+
+    border-radius: 999px;
+    background: #eee9e1;
+
+    overflow: hidden;
+
+    margin-bottom: 18px;
+}
+
+.bag-progress-fill {
+    height: 100%;
+    width: 0%;
+
+    border-radius: 999px;
+    background: #fe2b00;
+
+    transition: width 0.35s ease;
+}
+
+.bag-shipping {
+    font-size: 15px;
+    line-height: 1.4;
+
+    margin-bottom: 28px;
+}
+
+/* Productos */
+.bag-products {
+    border-top: 1.5px dashed #111;
+}
+
+.bag-product {
+    display: grid;
+    grid-template-columns: 64px 1fr auto auto;
+    align-items: center;
+    gap: 24px;
+
+    padding: 34px 0;
+
+    border-bottom: 1.5px dashed #111;
+}
+
+.bag-product-img {
+    width: 52px;
+    height: 64px;
+
+    object-fit: contain;
+    display: block;
+}
+
+.bag-product-name {
+    font-size: 18px;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.bag-product-controls {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    font-size: 18px;
+}
+
+.bag-product-controls button {
+    border: none;
+    background: transparent;
+    color: #111;
+
+    font-family: inherit;
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.bag-product-price {
+    min-width: 70px;
+
+    font-size: 18px;
+    text-align: right;
+}
+
+.bag-empty {
+    padding: 48px 0;
+
+    border-bottom: 1.5px dashed #111;
+
+    font-size: 17px;
+    color: #555;
+}
+
+/* Build kit */
+.bag-kit {
+    margin-top: auto;
+    padding-top: 74px;
+}
+
+.bag-kit h2 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+
+    margin-bottom: 22px;
+}
+
+.bag-kit-list {
+    border-top: 1.5px dashed #111;
+}
+
+.bag-kit-item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto auto;
+    align-items: center;
+    gap: 22px;
+
+    padding: 22px 0;
+
+    border-bottom: 1.5px dashed #111;
+}
+
+.bag-kit-item img {
+    width: 52px;
+    height: 52px;
+
+    object-fit: contain;
+}
+
+.bag-kit-name {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.bag-kit-price {
+    font-size: 16px;
+}
+
+.bag-kit-add {
+    border: none;
+    background: transparent;
+
+    color: #fe2b00;
+
+    font-family: inherit;
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+/* Footer */
+.bag-footer {
+    padding-top: 28px;
+}
+
+.bag-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 28px;
+}
+
+.bag-subtotal span,
+.bag-subtotal strong {
+    font-size: 29px;
+    font-weight: 700;
+}
+
+.bag-checkout {
+    width: 100%;
+
+    border: none;
+    border-radius: 999px;
+
+    background: #fe2b00;
+    color: #fff;
+
+    padding: 20px 24px;
+
+    font-family: 'Urbanist', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.bag-checkout:hover {
+    transform: translateY(-2px);
+    background: #95e5e3;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .bag-side-button {
+        right: 22px;
+    }
+
+    .bag-close {
+        top: 24px;
+    }
+}
+
+@media (max-width: 650px) {
+    .bag-page {
+        padding: 96px 16px 28px;
+        align-items: flex-start;
+    }
+
+    .bag-card {
+        width: 100%;
+        min-height: auto;
+        padding: 32px 24px;
+        border-radius: 22px;
+    }
+
+    .bag-header h1 {
+        font-size: 25px;
+    }
+
+    .bag-product,
+    .bag-kit-item {
+        grid-template-columns: 52px 1fr;
+        gap: 14px;
+    }
+
+    .bag-product-controls,
+    .bag-product-price,
+    .bag-kit-price,
+    .bag-kit-add {
+        grid-column: 2;
+    }
+
+    .bag-product-controls {
+        justify-content: flex-start;
+    }
+
+    .bag-product-price {
+        text-align: left;
+    }
+
+    .bag-kit {
+        padding-top: 56px;
+    }
+
+    .bag-subtotal span,
+    .bag-subtotal strong {
+        font-size: 24px;
+    }
+
+    .bag-checkout {
+        font-size: 18px;
+    }
+}
+
+/* Flash verde al añadir desde kit */
+.bag-kit-add.flash {
+    color: #95e5e3;
+    transition: color 0.15s ease;
+}
