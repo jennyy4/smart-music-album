@@ -68,24 +68,6 @@
     const cartTotal = document.getElementById("el-cart-total");
     const toast = document.getElementById("el-toast");
 
-    // Precargar todas las imágenes
-    const totalImagenes = productos.length;
-    let imagenesCargadas = 0;
-
-    carrusel.style.opacity = "0";
-
-    productos.forEach(function(producto) {
-        const img = new Image();
-        img.src = producto.imagen;
-        img.onload = img.onerror = function() {
-            imagenesCargadas++;
-            if (imagenesCargadas === totalImagenes) {
-                carrusel.style.transition = "opacity 0.4s ease";
-                carrusel.style.opacity = "1";
-            }
-        };
-    });
-
     let roles = {
         prev: item1,
         center: item2,
@@ -544,7 +526,25 @@
     });
 
     crearDots();
-    iniciarCarrusel();
     renderCarrito();
+
+    // Esperar a que carguen todas las imágenes antes de mostrar el carrusel
+    carrusel.style.opacity = "0";
+
+    let cargadas = 0;
+    const total = productos.length;
+
+    productos.forEach(function (producto) {
+        const img = new Image();
+        img.src = producto.imagen;
+        img.onload = img.onerror = function () {
+            cargadas++;
+            if (cargadas === total) {
+                iniciarCarrusel();
+                carrusel.style.transition = "opacity 0.4s ease";
+                carrusel.style.opacity = "1";
+            }
+        };
+    });
 
 })();
