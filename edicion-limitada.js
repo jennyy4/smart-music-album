@@ -48,12 +48,6 @@
         }
     ];
 
-    // Precargar todas las imágenes al inicio
-productos.forEach(function(producto) {
-    const img = new Image();
-    img.src = producto.imagen;
-});
-
     const carrusel = document.getElementById("el-carrusel");
     const nombre = document.getElementById("el-nombre");
     const precio = document.getElementById("el-precio");
@@ -73,6 +67,24 @@ productos.forEach(function(producto) {
     const cartItems = document.getElementById("el-cart-items");
     const cartTotal = document.getElementById("el-cart-total");
     const toast = document.getElementById("el-toast");
+
+    // Precargar todas las imágenes
+    const totalImagenes = productos.length;
+    let imagenesCargadas = 0;
+
+    carrusel.style.opacity = "0";
+
+    productos.forEach(function(producto) {
+        const img = new Image();
+        img.src = producto.imagen;
+        img.onload = img.onerror = function() {
+            imagenesCargadas++;
+            if (imagenesCargadas === totalImagenes) {
+                carrusel.style.transition = "opacity 0.4s ease";
+                carrusel.style.opacity = "1";
+            }
+        };
+    });
 
     let roles = {
         prev: item1,
