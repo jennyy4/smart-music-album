@@ -284,4 +284,8 @@ body {
         --card-w: 220px;
         --card-h: 310px;
     }
+
+    .pst-title {
+        font-size: 1.3rem;
+    }
 }
