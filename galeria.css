@@ -222,4 +222,8 @@ body {
     .alb-title {
         font-size: 1.3rem;
     }
+
+    .alb-header {
+        padding-left: 1rem;
+    }
 }
