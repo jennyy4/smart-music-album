@@ -166,7 +166,7 @@ a {
         font-size: 1.3rem;
     }
 
-    .sma-card-label {
-        font-size: 15px;
+    .sma-header {
+        padding-left: 1rem;
     }
 }
