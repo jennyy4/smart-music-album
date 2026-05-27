@@ -165,4 +165,8 @@ a {
     .sma-logo h1 {
         font-size: 1.3rem;
     }
+
+    .sma-card-label {
+        font-size: 15px;
+    }
 }
