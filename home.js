@@ -13,19 +13,16 @@
     // --- Drag state ---
     let dragStartX = null;
     let isDragging = false;
-    const SWIPE_THRESHOLD = 50; // px mínimos para considerar swipe
+    const SWIPE_THRESHOLD = 50;
 
     // ---------------------------------------------------
-    // Centra una tarjeta concreta
+    // Centra una tarjeta usando su posición fija en el DOM
+    // (offsetLeft no cambia con el transform del track)
     // ---------------------------------------------------
     const getTargetForIndex = (index) => {
         const card = cards[index];
         const vwCenter = window.innerWidth / 2;
-        // getBoundingClientRect da la posición visual real en pantalla,
-        // descontamos el currentX ya aplicado para obtener el desplazamiento necesario
-        const rect = card.getBoundingClientRect();
-        const cardCenter = rect.left + rect.width / 2;
-        return currentX + (vwCenter - cardCenter);
+        return vwCenter - (card.offsetLeft + card.offsetWidth / 2);
     };
 
     const setActive = (index) => {
@@ -56,7 +53,7 @@
     };
 
     // ---------------------------------------------------
-    // Mouse drag
+    // Mouse drag (escritorio)
     // ---------------------------------------------------
     window.addEventListener('mousedown', (e) => {
         dragStartX = e.clientX;
@@ -65,7 +62,6 @@
 
     window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
-        // Mueve el track en tiempo real mientras arrastras
         const diff = e.clientX - dragStartX;
         track.style.transform = `translateX(${currentX + diff}px)`;
     });
@@ -75,33 +71,32 @@
         isDragging = false;
         const diff = e.clientX - dragStartX;
 
-        if (diff < -SWIPE_THRESHOLD) goTo(activeIndex + 1);      // swipe izquierda → siguiente
-        else if (diff > SWIPE_THRESHOLD) goTo(activeIndex - 1);  // swipe derecha → anterior
-        else goTo(activeIndex);                                   // sin cambio, vuelve al sitio
-    });
-
-    // ---------------------------------------------------
-    // Touch (móvil)
-    // ---------------------------------------------------
-    window.addEventListener('touchstart', (e) => {
-        dragStartX = e.touches[0].clientX;
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-        const diff = e.touches[0].clientX - dragStartX;
-        track.style.transform = `translateX(${currentX + diff}px)`;
-    }, { passive: true });
-
-    window.addEventListener('touchend', (e) => {
-        const diff = e.changedTouches[0].clientX - dragStartX;
-
         if (diff < -SWIPE_THRESHOLD) goTo(activeIndex + 1);
         else if (diff > SWIPE_THRESHOLD) goTo(activeIndex - 1);
         else goTo(activeIndex);
     });
 
     // ---------------------------------------------------
-    // Tilt 3D y shine
+    // Touch (móvil) — solo detecta dirección, no arrastra
+    // ---------------------------------------------------
+    window.addEventListener('touchstart', (e) => {
+        dragStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    // Sin touchmove: el track no se mueve mientras arrastras en móvil
+
+    window.addEventListener('touchend', (e) => {
+        if (dragStartX === null) return;
+        const diff = e.changedTouches[0].clientX - dragStartX;
+        dragStartX = null;
+
+        if (diff < -SWIPE_THRESHOLD) goTo(activeIndex + 1);
+        else if (diff > SWIPE_THRESHOLD) goTo(activeIndex - 1);
+        // Si no hay swipe suficiente, se queda donde está
+    });
+
+    // ---------------------------------------------------
+    // Tilt 3D y shine (solo escritorio)
     // ---------------------------------------------------
     const addTilt = (card) => {
         card.addEventListener('mousemove', (e) => {
