@@ -161,4 +161,8 @@ a {
         width: 220px;
         height: 320px;
     }
+
+    .sma-logo h1 {
+        font-size: 1.3rem;
+    }
 }
