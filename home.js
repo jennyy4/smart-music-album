@@ -11,12 +11,12 @@
     const ease = 0.08;
     const SWIPE_THRESHOLD = 40;
 
+    // Bloqueo: mientras se anima no se acepta otro swipe
+    let busy = false;
+    const ANIM_DURATION = 600; // ms que tarda la animación en completarse
+
     const isMobile = () => window.matchMedia('(pointer: coarse)').matches;
 
-    // ---------------------------------------------------
-    // Calcula el translateX necesario para centrar la tarjeta
-    // Usa offsetLeft que es fijo en el DOM independiente del transform
-    // ---------------------------------------------------
     const getTargetForIndex = (index) => {
         const card = cards[index];
         const vwCenter = window.innerWidth / 2;
@@ -40,20 +40,20 @@
         activeIndex = Math.max(0, Math.min(cards.length - 1, index));
         targetX = getTargetForIndex(activeIndex);
         setActive(activeIndex);
+
+        // Bloquea hasta que la animación termina
+        busy = true;
+        setTimeout(() => { busy = false; }, ANIM_DURATION);
     };
 
-    // ---------------------------------------------------
     // LERP animation
-    // ---------------------------------------------------
     const animate = () => {
         currentX += (targetX - currentX) * ease;
         track.style.transform = `translateX(${currentX}px)`;
         requestAnimationFrame(animate);
     };
 
-    // ---------------------------------------------------
     // Mouse drag (solo escritorio)
-    // ---------------------------------------------------
     let dragStartX = null;
     let isDragging = false;
 
@@ -78,31 +78,27 @@
         else goTo(activeIndex);
     });
 
-    // ---------------------------------------------------
-    // Touch (móvil): detecta dirección al soltar, no mueve durante el gesto
-    // ---------------------------------------------------
+    // Touch (móvil): un swipe = un paso, bloqueado hasta que termina la animación
     let touchStartX = null;
 
     window.addEventListener('touchstart', (e) => {
+        if (busy) return;
         touchStartX = e.touches[0].clientX;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
-        if (touchStartX === null) return;
+        if (touchStartX === null || busy) return;
         const diff = e.changedTouches[0].clientX - touchStartX;
         touchStartX = null;
 
         if (diff < -SWIPE_THRESHOLD) {
-            goTo(activeIndex + 1);  // swipe izquierda → siguiente
+            goTo(activeIndex + 1);
         } else if (diff > SWIPE_THRESHOLD) {
-            goTo(activeIndex - 1);  // swipe derecha → anterior
+            goTo(activeIndex - 1);
         }
-        // si no hay swipe suficiente, se queda donde está
     });
 
-    // ---------------------------------------------------
     // Tilt 3D y shine (solo escritorio)
-    // ---------------------------------------------------
     const addTilt = (card) => {
         card.addEventListener('mousemove', (e) => {
             if (!card.classList.contains('is-active') || isDragging || isMobile()) return;
@@ -113,7 +109,6 @@
             const rotateX = ((cy - y) / cy) * 10;
             const rotateY = ((x - cx) / cx) * 10;
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05,1.05,1.05)`;
-
             const bg = card.querySelector('.sma-card-bg');
             if (bg) {
                 bg.style.setProperty('--shine-x', `${(x / rect.width) * 100}%`);
@@ -122,9 +117,7 @@
         });
 
         card.addEventListener('mouseleave', () => {
-            if (card.classList.contains('is-active')) {
-                card.style.transform = '';
-            }
+            if (card.classList.contains('is-active')) card.style.transform = '';
             const bg = card.querySelector('.sma-card-bg');
             if (bg) {
                 bg.style.setProperty('--shine-x', '50%');
@@ -133,12 +126,11 @@
         });
     };
 
-    // ---------------------------------------------------
     // Arranque
-    // ---------------------------------------------------
     setTimeout(() => {
         goTo(0);
         currentX = getTargetForIndex(0);
+        busy = false; // el goTo inicial no debe bloquear
         animate();
     }, 100);
 
