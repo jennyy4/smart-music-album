@@ -9,20 +9,19 @@
     let currentX = 0;
     let targetX = 0;
     const ease = 0.08;
+    const SWIPE_THRESHOLD = 40;
 
-    // --- Drag state ---
-    let dragStartX = null;
-    let isDragging = false;
-    const SWIPE_THRESHOLD = 50;
+    const isMobile = () => window.matchMedia('(pointer: coarse)').matches;
 
     // ---------------------------------------------------
-    // Centra una tarjeta usando su posición fija en el DOM
-    // (offsetLeft no cambia con el transform del track)
+    // Calcula el translateX necesario para centrar la tarjeta
+    // Usa offsetLeft que es fijo en el DOM independiente del transform
     // ---------------------------------------------------
     const getTargetForIndex = (index) => {
         const card = cards[index];
         const vwCenter = window.innerWidth / 2;
-        return vwCenter - (card.offsetLeft + card.offsetWidth / 2);
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        return vwCenter - cardCenter;
     };
 
     const setActive = (index) => {
@@ -53,46 +52,52 @@
     };
 
     // ---------------------------------------------------
-    // Mouse drag (escritorio)
+    // Mouse drag (solo escritorio)
     // ---------------------------------------------------
+    let dragStartX = null;
+    let isDragging = false;
+
     window.addEventListener('mousedown', (e) => {
+        if (isMobile()) return;
         dragStartX = e.clientX;
         isDragging = true;
     });
 
     window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
+        if (!isDragging || isMobile()) return;
         const diff = e.clientX - dragStartX;
         track.style.transform = `translateX(${currentX + diff}px)`;
     });
 
     window.addEventListener('mouseup', (e) => {
-        if (!isDragging) return;
+        if (!isDragging || isMobile()) return;
         isDragging = false;
         const diff = e.clientX - dragStartX;
-
         if (diff < -SWIPE_THRESHOLD) goTo(activeIndex + 1);
         else if (diff > SWIPE_THRESHOLD) goTo(activeIndex - 1);
         else goTo(activeIndex);
     });
 
     // ---------------------------------------------------
-    // Touch (móvil) — solo detecta dirección, no arrastra
+    // Touch (móvil): detecta dirección al soltar, no mueve durante el gesto
     // ---------------------------------------------------
+    let touchStartX = null;
+
     window.addEventListener('touchstart', (e) => {
-        dragStartX = e.touches[0].clientX;
+        touchStartX = e.touches[0].clientX;
     }, { passive: true });
 
-    // Sin touchmove: el track no se mueve mientras arrastras en móvil
-
     window.addEventListener('touchend', (e) => {
-        if (dragStartX === null) return;
-        const diff = e.changedTouches[0].clientX - dragStartX;
-        dragStartX = null;
+        if (touchStartX === null) return;
+        const diff = e.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
 
-        if (diff < -SWIPE_THRESHOLD) goTo(activeIndex + 1);
-        else if (diff > SWIPE_THRESHOLD) goTo(activeIndex - 1);
-        // Si no hay swipe suficiente, se queda donde está
+        if (diff < -SWIPE_THRESHOLD) {
+            goTo(activeIndex + 1);  // swipe izquierda → siguiente
+        } else if (diff > SWIPE_THRESHOLD) {
+            goTo(activeIndex - 1);  // swipe derecha → anterior
+        }
+        // si no hay swipe suficiente, se queda donde está
     });
 
     // ---------------------------------------------------
@@ -100,7 +105,7 @@
     // ---------------------------------------------------
     const addTilt = (card) => {
         card.addEventListener('mousemove', (e) => {
-            if (!card.classList.contains('is-active') || isDragging) return;
+            if (!card.classList.contains('is-active') || isDragging || isMobile()) return;
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -128,7 +133,9 @@
         });
     };
 
-    // Iniciar
+    // ---------------------------------------------------
+    // Arranque
+    // ---------------------------------------------------
     setTimeout(() => {
         goTo(0);
         currentX = getTargetForIndex(0);
