@@ -268,6 +268,14 @@
         }, 300);
     });
 
+    document.querySelector(".bag-checkout").addEventListener("click", function () {
+        const btn = this;
+        btn.classList.add("flash-azul");
+        setTimeout(function () {
+            btn.classList.remove("flash-azul");
+        }, 1000);
+    });
+
     render();
 
 })();
