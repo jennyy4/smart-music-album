@@ -288,4 +288,8 @@ body {
     .pst-title {
         font-size: 1.3rem;
     }
+
+    .pst-header {
+        padding-left: 1rem;
+    }
 }
