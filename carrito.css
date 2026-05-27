@@ -304,6 +304,12 @@ body {
     background: #95e5e3;
 }
 
+.bag-checkout.flash-azul {
+    background: #95e5e3;
+    color: #111;
+    transform: translateY(-2px);
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .bag-side-button {
