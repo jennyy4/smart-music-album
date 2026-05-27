@@ -42,33 +42,46 @@
 
             if (!bloque || !pantalla) return;
 
+            // Estado actual (false = portada 1, true = portada 2)
+            var estadoActual = false;
+
             function cambiarEstado(segundoActivo) {
+                estadoActual = segundoActivo;
                 bloque.classList.toggle('is-swapped', segundoActivo);
                 pantalla.classList.toggle('fondo-claro', segundoActivo);
             }
 
+            // ── ESCRITORIO: mousemove cambia según posición ──
+            // Al salir del bloque se queda en el último estado (sin resetear)
             bloque.addEventListener('mousemove', function (e) {
                 var rect = bloque.getBoundingClientRect();
                 var mitad = rect.left + rect.width / 2;
-
                 cambiarEstado(e.clientX > mitad);
             });
 
-            bloque.addEventListener('mouseleave', function () {
-                cambiarEstado(false);
-            });
+            // ── MÓVIL: swipe izquierda/derecha alterna y se queda fijo ──
+            var touchStartX = null;
+            var SWIPE_THR = 40;
 
-            bloque.addEventListener('touchmove', function (e) {
-                var touch = e.touches[0];
-                var rect = bloque.getBoundingClientRect();
-                var mitad = rect.left + rect.width / 2;
-
-                cambiarEstado(touch.clientX > mitad);
+            bloque.addEventListener('touchstart', function (e) {
+                touchStartX = e.touches[0].clientX;
             }, { passive: true });
 
-            bloque.addEventListener('touchend', function () {
-                cambiarEstado(false);
+            bloque.addEventListener('touchend', function (e) {
+                if (touchStartX === null) return;
+                var diff = e.changedTouches[0].clientX - touchStartX;
+                touchStartX = null;
+
+                if (diff < -SWIPE_THR) {
+                    // Swipe izquierda → portada 2
+                    cambiarEstado(true);
+                } else if (diff > SWIPE_THR) {
+                    // Swipe derecha → portada 1
+                    cambiarEstado(false);
+                }
+                // Sin swipe suficiente → se queda como está
             });
+
         })();
     </script>
 
