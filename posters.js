@@ -76,44 +76,21 @@
     };
 
     /* ──────────────────────────────────────
-       Navegar hacia atrás (la última carta sube al frente)
-    ────────────────────────────────────── */
-    const prevCard = () => {
-        if (busy || lbOpen) return;
-        // Mueve la última carta al frente instantáneamente (sin animación)
-        const lastIdx = queue[queue.length - 1];
-        const lastCard = cards[lastIdx];
-
-        // Oculta la carta momentáneamente para que aparezca con transición
-        lastCard.style.transition = 'none';
-        lastCard.setAttribute('data-pos', 'hidden');
-        lastCard.style.zIndex = 0;
-
-        queue.unshift(queue.pop());
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                lastCard.style.transition = '';
-                render();
-            });
-        });
-    };
-
-    /* ──────────────────────────────────────
        Controles
     ────────────────────────────────────── */
 
-    // Rueda del ratón
+    // Rueda del ratón (solo hacia abajo)
     let wheelCooldown = false;
     window.addEventListener('wheel', (e) => {
         if (lbOpen || wheelCooldown) return;
-        wheelCooldown = true;
-        setTimeout(() => wheelCooldown = false, 700);
-        if (e.deltaY > 0) fallAndNext();
-        else prevCard();
+        if (e.deltaY > 0) {
+            wheelCooldown = true;
+            setTimeout(() => wheelCooldown = false, 700);
+            fallAndNext();
+        }
     }, { passive: true });
 
-    // Teclado
+    // Teclado (solo flecha abajo)
     document.addEventListener('keydown', (e) => {
         if (lbOpen) {
             if (e.key === 'Escape') closeLightbox();
@@ -121,11 +98,10 @@
             if (e.key === 'ArrowRight') lbGoTo(lbCurrentIndex + 1);
             return;
         }
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') fallAndNext();
-        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') prevCard();
+        if (e.key === 'ArrowDown') fallAndNext();
     });
 
-    // Drag vertical
+    // Drag vertical (solo de arriba a abajo con el ratón)
     let dragStartY = null;
     const SWIPE_THR = 60;
 
@@ -134,17 +110,16 @@
         if (dragStartY === null || lbOpen) return;
         const diff = e.clientY - dragStartY;
         dragStartY = null;
-        if (diff < -SWIPE_THR) fallAndNext();
-        else if (diff > SWIPE_THR) prevCard();
+        if (diff > SWIPE_THR) fallAndNext();
     });
 
+    // Touch (solo swipe de arriba a abajo)
     window.addEventListener('touchstart', (e) => { if (!lbOpen) dragStartY = e.touches[0].clientY; }, { passive: true });
     window.addEventListener('touchend', (e) => {
         if (dragStartY === null || lbOpen) return;
         const diff = e.changedTouches[0].clientY - dragStartY;
         dragStartY = null;
-        if (diff < -SWIPE_THR) fallAndNext();
-        else if (diff > SWIPE_THR) prevCard();
+        if (diff > SWIPE_THR) fallAndNext();
     });
 
     /* ──────────────────────────────────────
