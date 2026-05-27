@@ -218,4 +218,8 @@ body {
     .alb-lb-img-wrap {
         max-width: 90vw;
     }
+
+    .alb-title {
+        font-size: 1.3rem;
+    }
 }
