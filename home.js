@@ -13,7 +13,7 @@
 
     // Bloqueo: mientras se anima no se acepta otro swipe
     let busy = false;
-    const ANIM_DURATION = 600; // ms que tarda la animación en completarse
+    const ANIM_DURATION = 400; // ms que tarda la animación en completarse
 
     const isMobile = () => window.matchMedia('(pointer: coarse)').matches;
 
@@ -78,22 +78,36 @@
         else goTo(activeIndex);
     });
 
-    // Touch (móvil): un swipe = un paso, bloqueado hasta que termina la animación
+    // Touch (móvil): un swipe = exactamente un paso, bloqueado hasta que termina la animación
     let touchStartX = null;
+    let touchStartY = null;
+    let touchMoved = false;
 
     window.addEventListener('touchstart', (e) => {
         if (busy) return;
         touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchMoved = false;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (touchStartX === null) return;
+        touchMoved = true;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
         if (touchStartX === null || busy) return;
-        const diff = e.changedTouches[0].clientX - touchStartX;
+        const diffX = e.changedTouches[0].clientX - touchStartX;
+        const diffY = e.changedTouches[0].clientY - touchStartY;
         touchStartX = null;
+        touchStartY = null;
 
-        if (diff < -SWIPE_THRESHOLD) {
+        // Solo actúa si el movimiento horizontal es mayor que el vertical (swipe lateral)
+        if (Math.abs(diffX) < Math.abs(diffY)) return;
+
+        if (diffX < -SWIPE_THRESHOLD) {
             goTo(activeIndex + 1);
-        } else if (diff > SWIPE_THRESHOLD) {
+        } else if (diffX > SWIPE_THRESHOLD) {
             goTo(activeIndex - 1);
         }
     });
