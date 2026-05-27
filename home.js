@@ -21,7 +21,11 @@
     const getTargetForIndex = (index) => {
         const card = cards[index];
         const vwCenter = window.innerWidth / 2;
-        return vwCenter - (card.offsetLeft + card.offsetWidth / 2);
+        // getBoundingClientRect da la posición visual real en pantalla,
+        // descontamos el currentX ya aplicado para obtener el desplazamiento necesario
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        return currentX + (vwCenter - cardCenter);
     };
 
     const setActive = (index) => {
