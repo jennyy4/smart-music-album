@@ -28,6 +28,7 @@ html,
 body {
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
     font-family: var(--font-body);
     font-weight: 400;
     background: #f8ffff;
@@ -77,6 +78,10 @@ a {
 /* 5. Carrusel – sin padding que impida centrar la primera tarjeta */
 .sma-track-container {
     width: 100%;
+    overflow: hidden;
+    /* evita que las tarjetas fuera de vista generen scroll horizontal nativo */
+    touch-action: pan-y;
+    /* solo dejamos scroll vertical al navegador; el horizontal lo controla el JS */
 }
 
 .sma-track {
@@ -84,6 +89,7 @@ a {
     gap: 1.8rem;
     /* separación entre tarjetas */
     will-change: transform;
+    touch-action: pan-y;
 }
 
 /* 6. Tarjetas */
