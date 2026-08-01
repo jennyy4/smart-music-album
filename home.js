@@ -28,10 +28,8 @@
         cards.forEach((card, i) => {
             if (i === index) {
                 card.classList.add('is-active');
-                card.style.transform = '';
             } else {
                 card.classList.remove('is-active');
-                card.style.transform = 'scale(0.85)';
             }
         });
     };
@@ -78,19 +76,18 @@
         else goTo(activeIndex);
     });
 
-    // Touch (móvil): un swipe = exactamente un paso, con feedback en vivo (estilo Instagram)
-    // y bloqueado hasta que termina la animación de la tarjeta anterior.
+    // Touch (móvil): un swipe = exactamente un paso. Sin seguimiento en vivo del dedo
+    // (nada de arrastre "fluido"): la tarjeta solo cambia, de golpe, cuando sueltas el dedo.
+    // Se bloquea hasta que termina la animación de la tarjeta anterior.
     let touchStartX = null;
     let touchStartY = null;
     let touchDragging = false; // true solo cuando confirmamos que es un swipe horizontal
-    let touchDeltaX = 0;
 
     window.addEventListener('touchstart', (e) => {
         if (busy) return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         touchDragging = false;
-        touchDeltaX = 0;
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
@@ -105,44 +102,35 @@
             touchDragging = true;
         }
 
-        // Evita que el navegador haga scroll/zoom nativo mientras arrastramos el carrusel
+        // Solo evitamos que el navegador haga scroll/zoom nativo mientras el dedo se mueve;
+        // no tocamos el transform aquí, así no hay arrastre visual pegado al dedo.
         e.preventDefault();
-
-        // Límite elástico: nunca dejamos que el arrastre visual pase de "una tarjeta"
-        const activeCard = cards[activeIndex];
-        const maxDrag = activeCard.offsetWidth + 40;
-        touchDeltaX = Math.max(-maxDrag, Math.min(maxDrag, diffX));
-
-        // Feedback en vivo: la tarjeta sigue al dedo mientras arrastras
-        track.style.transform = `translateX(${currentX + touchDeltaX}px)`;
     }, { passive: false });
 
-    window.addEventListener('touchend', () => {
+    window.addEventListener('touchend', (e) => {
         if (touchStartX === null || busy) {
             touchStartX = null;
             touchStartY = null;
             touchDragging = false;
-            touchDeltaX = 0;
             return;
         }
 
         const wasDragging = touchDragging;
-        const finalDeltaX = touchDeltaX;
+        const diffX = e.changedTouches[0].clientX - touchStartX;
 
         touchStartX = null;
         touchStartY = null;
         touchDragging = false;
-        touchDeltaX = 0;
 
         if (!wasDragging) return; // era un gesto vertical o un simple toque, no navegamos
 
-        if (finalDeltaX < -SWIPE_THRESHOLD) {
+        if (diffX < -SWIPE_THRESHOLD) {
             goTo(activeIndex + 1);
-        } else if (finalDeltaX > SWIPE_THRESHOLD) {
+        } else if (diffX > SWIPE_THRESHOLD) {
             goTo(activeIndex - 1);
-        } else {
-            goTo(activeIndex); // no llegó al umbral: vuelve a encajar en la misma tarjeta
         }
+        // si no llega al umbral, no pasa nada: como no había arrastre visual, la tarjeta
+        // ya estaba en su sitio y no hace falta "recolocarla"
     });
 
     // Tilt 3D y shine (solo escritorio)
