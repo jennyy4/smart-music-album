@@ -100,18 +100,18 @@ a {
     position: relative;
     perspective: 1000px;
     opacity: var(--card-opacity-inactive);
-    transform: scale(var(--card-scale-inactive));
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .sma-card.is-active {
     opacity: 1;
-    transform: scale(1.08);
-    /* slightly larger central card */
     z-index: 5;
 }
 
-/* 7. Fondo de imágenes (rectángulos) */
+/* 7. Fondo de imágenes (rectángulos) – aquí es donde se aplica el zoom, no en la tarjeta
+   entera, así el border-radius/overflow:hidden siempre recorta correctamente la imagen
+   (evita el bug de iOS Safari donde escalar un padre con "perspective" rompe el
+   recorte redondeado del hijo) */
 .sma-card-bg {
     width: 100%;
     height: 100%;
@@ -119,6 +119,15 @@ a {
     border-radius: 12px;
     background: #222;
     position: relative;
+    transform: scale(var(--card-scale-inactive));
+    transition: transform 0.3s ease;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    /* fuerza a Safari/iOS a respetar el recorte redondeado al escalar */
+}
+
+.sma-card.is-active .sma-card-bg {
+    transform: scale(1.08);
+    /* la tarjeta central crece manteniendo siempre las esquinas curvas */
 }
 
 .sma-card-bg img {
