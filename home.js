@@ -78,37 +78,70 @@
         else goTo(activeIndex);
     });
 
-    // Touch (móvil): un swipe = exactamente un paso, bloqueado hasta que termina la animación
+    // Touch (móvil): un swipe = exactamente un paso, con feedback en vivo (estilo Instagram)
+    // y bloqueado hasta que termina la animación de la tarjeta anterior.
     let touchStartX = null;
     let touchStartY = null;
-    let touchMoved = false;
+    let touchDragging = false; // true solo cuando confirmamos que es un swipe horizontal
+    let touchDeltaX = 0;
 
     window.addEventListener('touchstart', (e) => {
         if (busy) return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
-        touchMoved = false;
+        touchDragging = false;
+        touchDeltaX = 0;
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-        if (touchStartX === null) return;
-        touchMoved = true;
-    }, { passive: true });
-
-    window.addEventListener('touchend', (e) => {
         if (touchStartX === null || busy) return;
-        const diffX = e.changedTouches[0].clientX - touchStartX;
-        const diffY = e.changedTouches[0].clientY - touchStartY;
+
+        const diffX = e.touches[0].clientX - touchStartX;
+        const diffY = e.touches[0].clientY - touchStartY;
+
+        if (!touchDragging) {
+            // Decidimos la dirección del gesto una sola vez, al principio del movimiento
+            if (Math.abs(diffX) < Math.abs(diffY)) return; // es un gesto vertical, lo ignoramos
+            touchDragging = true;
+        }
+
+        // Evita que el navegador haga scroll/zoom nativo mientras arrastramos el carrusel
+        e.preventDefault();
+
+        // Límite elástico: nunca dejamos que el arrastre visual pase de "una tarjeta"
+        const activeCard = cards[activeIndex];
+        const maxDrag = activeCard.offsetWidth + 40;
+        touchDeltaX = Math.max(-maxDrag, Math.min(maxDrag, diffX));
+
+        // Feedback en vivo: la tarjeta sigue al dedo mientras arrastras
+        track.style.transform = `translateX(${currentX + touchDeltaX}px)`;
+    }, { passive: false });
+
+    window.addEventListener('touchend', () => {
+        if (touchStartX === null || busy) {
+            touchStartX = null;
+            touchStartY = null;
+            touchDragging = false;
+            touchDeltaX = 0;
+            return;
+        }
+
+        const wasDragging = touchDragging;
+        const finalDeltaX = touchDeltaX;
+
         touchStartX = null;
         touchStartY = null;
+        touchDragging = false;
+        touchDeltaX = 0;
 
-        // Solo actúa si el movimiento horizontal es mayor que el vertical (swipe lateral)
-        if (Math.abs(diffX) < Math.abs(diffY)) return;
+        if (!wasDragging) return; // era un gesto vertical o un simple toque, no navegamos
 
-        if (diffX < -SWIPE_THRESHOLD) {
+        if (finalDeltaX < -SWIPE_THRESHOLD) {
             goTo(activeIndex + 1);
-        } else if (diffX > SWIPE_THRESHOLD) {
+        } else if (finalDeltaX > SWIPE_THRESHOLD) {
             goTo(activeIndex - 1);
+        } else {
+            goTo(activeIndex); // no llegó al umbral: vuelve a encajar en la misma tarjeta
         }
     });
 
