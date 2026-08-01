@@ -121,8 +121,11 @@ a {
     position: relative;
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease;
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-    /* fuerza a Safari/iOS a respetar el recorte redondeado al escalar */
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* ayuda a que Safari/iOS cree la capa GPU correctamente y no "pierda" el
+       recorte redondeado durante la animación de escala */
 }
 
 .sma-card.is-active .sma-card-bg {
