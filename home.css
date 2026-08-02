@@ -92,7 +92,8 @@ a {
     touch-action: pan-y;
 }
 
-/* 6. Tarjetas */
+/* 6. Tarjetas – el zoom se aplica aquí, en la tarjeta completa, para que la imagen,
+   su contenedor y la etiqueta de texto crezcan juntos como una sola unidad */
 .sma-card {
     width: 320px;
     height: 460px;
@@ -100,18 +101,23 @@ a {
     position: relative;
     perspective: 1000px;
     opacity: var(--card-opacity-inactive);
-    transition: opacity 0.3s ease;
+    transform: scale(var(--card-scale-inactive));
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .sma-card.is-active {
     opacity: 1;
+    transform: scale(1.08);
+    /* la tarjeta central (imagen + contenedor + texto) crece como conjunto */
     z-index: 5;
 }
 
-/* 7. Fondo de imágenes (rectángulos) – aquí es donde se aplica el zoom, no en la tarjeta
-   entera, así el border-radius/overflow:hidden siempre recorta correctamente la imagen
-   (evita el bug de iOS Safari donde escalar un padre con "perspective" rompe el
-   recorte redondeado del hijo) */
+/* 7. Fondo de imágenes (rectángulos) – border-radius + overflow:hidden aquí garantizan
+   que, aunque toda la tarjeta se escale, la imagen siempre quede recortada en un
+   rectángulo de esquinas curvas */
 .sma-card-bg {
     width: 100%;
     height: 100%;
@@ -119,18 +125,6 @@ a {
     border-radius: 12px;
     background: #222;
     position: relative;
-    transform: scale(var(--card-scale-inactive));
-    transition: transform 0.3s ease;
-    will-change: transform;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    /* ayuda a que Safari/iOS cree la capa GPU correctamente y no "pierda" el
-       recorte redondeado durante la animación de escala */
-}
-
-.sma-card.is-active .sma-card-bg {
-    transform: scale(1.08);
-    /* la tarjeta central crece manteniendo siempre las esquinas curvas */
 }
 
 .sma-card-bg img {
