@@ -103,21 +103,9 @@ a {
     height: 460px;
     flex-shrink: 0;
     position: relative;
-
     opacity: var(--card-opacity-inactive);
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease, opacity 0.3s ease;
-
-    /* Mantiene las esquinas redondeadas al escalar */
-    border-radius: 12px;
-    overflow: hidden;
-
-    /* Recorte más estable durante las transformaciones */
-    clip-path: inset(0 round 12px);
-    -webkit-clip-path: inset(0 round 12px);
-
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 .sma-card.is-active {
@@ -134,16 +122,16 @@ a {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border-radius: inherit;
+    border-radius: 12px;
     background: #222;
     position: relative;
 }
+
 .sma-card-bg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: inherit;
 }
 
 /* 8. Efecto shine (luz móvil) */
@@ -193,32 +181,4 @@ a {
     .sma-header {
         padding-left: 1rem;
     }
-}
-/* Esquinas de todas las tarjetas */
-.sma-card,
-.sma-card-bg,
-.sma-card-bg img,
-.sma-card-bg::after {
-    border-radius: 18px !important;
-}
-
-/* Esquinas de la tarjeta grande */
-.sma-card.is-active,
-.sma-card.is-active .sma-card-bg,
-.sma-card.is-active .sma-card-bg img,
-.sma-card.is-active .sma-card-bg::after {
-    border-radius: 28px !important;
-}
-
-/* Fuerza el recorte durante el escalado */
-.sma-card {
-    overflow: hidden;
-    clip-path: inset(0 round 18px);
-    -webkit-clip-path: inset(0 round 18px);
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-}
-
-.sma-card.is-active {
-    clip-path: inset(0 round 28px);
-    -webkit-clip-path: inset(0 round 28px);
 }
