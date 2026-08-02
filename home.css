@@ -93,13 +93,16 @@ a {
 }
 
 /* 6. Tarjetas – el zoom se aplica aquí, en la tarjeta completa, para que la imagen,
-   su contenedor y la etiqueta de texto crezcan juntos como una sola unidad */
+   su contenedor y la etiqueta de texto crezcan juntos como una sola unidad.
+   OJO: aquí NO ponemos "perspective" fijo, porque perspective + scale() de forma
+   permanente es lo que rompía el recorte redondeado del hijo al agrandar la tarjeta.
+   La perspectiva para el efecto de inclinación 3D se añade solo puntualmente desde
+   el JS, dentro del propio transform, cuando el ratón pasa por encima (ver home.js). */
 .sma-card {
     width: 320px;
     height: 460px;
     flex-shrink: 0;
     position: relative;
-    perspective: 1000px;
     opacity: var(--card-opacity-inactive);
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -122,9 +125,6 @@ a {
     border-radius: 12px;
     background: #222;
     position: relative;
-    transform: translateZ(0);
-    /* fuerza su propia capa de renderizado para que el recorte redondeado
-       se calcule siempre de forma independiente, aunque la tarjeta padre se escale */
 }
 
 .sma-card-bg img {
