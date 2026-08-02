@@ -8,12 +8,15 @@
     let activeIndex = 0;
     let currentX = 0;
     let targetX = 0;
-    const ease = 0.08;
     const SWIPE_THRESHOLD = 40;
+
+    // Transición "a tirones": un salto rápido y directo de una tarjeta a otra,
+    // sin planeo largo ni deceleración suave.
+    const SNAP_TRANSITION = 'transform 180ms cubic-bezier(0.3, 0.7, 0.4, 1)';
+    const ANIM_DURATION = 190; // ms que tarda la animación en completarse (debe casar con SNAP_TRANSITION)
 
     // Bloqueo: mientras se anima no se acepta otro swipe
     let busy = false;
-    const ANIM_DURATION = 400; // ms que tarda la animación en completarse
 
     const isMobile = () => window.matchMedia('(pointer: coarse)').matches;
 
@@ -34,21 +37,31 @@
         });
     };
 
+    // Mueve el track a "x". Si instant=true, no hay transición (salto sin animar).
+    const moveTrackTo = (x, instant = false) => {
+        if (instant) {
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${x}px)`;
+            // Fuerza reflow para que el siguiente cambio de transición se aplique bien
+            void track.offsetHeight;
+        } else {
+            track.style.transition = SNAP_TRANSITION;
+            // Fuerza reflow por si veníamos de "transition: none" (p.ej. tras un drag)
+            void track.offsetHeight;
+            track.style.transform = `translateX(${x}px)`;
+        }
+        currentX = x;
+    };
+
     const goTo = (index) => {
         activeIndex = Math.max(0, Math.min(cards.length - 1, index));
         targetX = getTargetForIndex(activeIndex);
         setActive(activeIndex);
+        moveTrackTo(targetX);
 
         // Bloquea hasta que la animación termina
         busy = true;
         setTimeout(() => { busy = false; }, ANIM_DURATION);
-    };
-
-    // LERP animation
-    const animate = () => {
-        currentX += (targetX - currentX) * ease;
-        track.style.transform = `translateX(${currentX}px)`;
-        requestAnimationFrame(animate);
     };
 
     // Mouse drag (solo escritorio)
@@ -59,6 +72,8 @@
         if (isMobile()) return;
         dragStartX = e.clientX;
         isDragging = true;
+        // Mientras arrastras, sin transición: la tarjeta sigue al ratón al instante
+        track.style.transition = 'none';
     });
 
     window.addEventListener('mousemove', (e) => {
@@ -77,7 +92,7 @@
     });
 
     // Touch (móvil): un swipe = exactamente un paso. Sin seguimiento en vivo del dedo
-    // (nada de arrastre "fluido"): la tarjeta solo cambia, de golpe, cuando sueltas el dedo.
+    // (nada de arrastre "fluido"): la tarjeta salta de golpe, rápido, cuando sueltas el dedo.
     // Se bloquea hasta que termina la animación de la tarjeta anterior.
     let touchStartX = null;
     let touchStartY = null;
@@ -161,12 +176,12 @@
         });
     };
 
-    // Arranque
+    // Arranque: coloca la primera tarjeta activa sin animar el salto inicial
     setTimeout(() => {
-        goTo(0);
-        currentX = getTargetForIndex(0);
-        busy = false; // el goTo inicial no debe bloquear
-        animate();
+        activeIndex = 0;
+        setActive(0);
+        moveTrackTo(getTargetForIndex(0), true);
+        busy = false;
     }, 100);
 
     cards.forEach(addTilt);
