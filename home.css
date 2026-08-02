@@ -194,3 +194,31 @@ a {
         padding-left: 1rem;
     }
 }
+/* Esquinas de todas las tarjetas */
+.sma-card,
+.sma-card-bg,
+.sma-card-bg img,
+.sma-card-bg::after {
+    border-radius: 18px !important;
+}
+
+/* Esquinas de la tarjeta grande */
+.sma-card.is-active,
+.sma-card.is-active .sma-card-bg,
+.sma-card.is-active .sma-card-bg img,
+.sma-card.is-active .sma-card-bg::after {
+    border-radius: 28px !important;
+}
+
+/* Fuerza el recorte durante el escalado */
+.sma-card {
+    overflow: hidden;
+    clip-path: inset(0 round 18px);
+    -webkit-clip-path: inset(0 round 18px);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.sma-card.is-active {
+    clip-path: inset(0 round 28px);
+    -webkit-clip-path: inset(0 round 28px);
+}
