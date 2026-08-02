@@ -148,33 +148,7 @@
         // ya estaba en su sitio y no hace falta "recolocarla"
     });
 
-    // Tilt 3D y shine (solo escritorio)
-    const addTilt = (card) => {
-        card.addEventListener('mousemove', (e) => {
-            if (!card.classList.contains('is-active') || isDragging || isMobile()) return;
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const cx = rect.width / 2, cy = rect.height / 2;
-            const rotateX = ((cy - y) / cy) * 10;
-            const rotateY = ((x - cx) / cx) * 10;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05,1.05,1.05)`;
-            const bg = card.querySelector('.sma-card-bg');
-            if (bg) {
-                bg.style.setProperty('--shine-x', `${(x / rect.width) * 100}%`);
-                bg.style.setProperty('--shine-y', `${(y / rect.height) * 100}%`);
-            }
-        });
-
-        card.addEventListener('mouseleave', () => {
-            if (card.classList.contains('is-active')) card.style.transform = '';
-            const bg = card.querySelector('.sma-card-bg');
-            if (bg) {
-                bg.style.setProperty('--shine-x', '50%');
-                bg.style.setProperty('--shine-y', '50%');
-            }
-        });
-    };
+   
 
     // Arranque: coloca la primera tarjeta activa sin animar el salto inicial
     setTimeout(() => {
@@ -184,7 +158,7 @@
         busy = false;
     }, 100);
 
-    cards.forEach(addTilt);
+    
 
     // Flechas del teclado
     document.addEventListener('keydown', (e) => {
