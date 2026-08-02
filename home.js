@@ -167,12 +167,7 @@
         });
 
         card.addEventListener('mouseleave', () => {
-            if (card.classList.contains('is-active')) card.style.transform = '';
-            const bg = card.querySelector('.sma-card-bg');
-            if (bg) {
-                bg.style.setProperty('--shine-x', '50%');
-                bg.style.setProperty('--shine-y', '50%');
-            }
+    card.style.transform = '';
         });
     };
 
