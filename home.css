@@ -106,6 +106,11 @@ a {
     opacity: var(--card-opacity-inactive);
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease, opacity 0.3s ease;
+
+    border-radius: 12px;
+    overflow: hidden;
+    clip-path: inset(0 round 12px);
+    backface-visibility: hidden;
 }
 
 .sma-card.is-active {
