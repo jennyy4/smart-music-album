@@ -103,9 +103,6 @@ a {
     opacity: var(--card-opacity-inactive);
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease, opacity 0.3s ease;
-    will-change: transform;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
 }
 
 .sma-card.is-active {
@@ -125,6 +122,9 @@ a {
     border-radius: 12px;
     background: #222;
     position: relative;
+    transform: translateZ(0);
+    /* fuerza su propia capa de renderizado para que el recorte redondeado
+       se calcule siempre de forma independiente, aunque la tarjeta padre se escale */
 }
 
 .sma-card-bg img {
