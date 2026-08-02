@@ -103,9 +103,21 @@ a {
     height: 460px;
     flex-shrink: 0;
     position: relative;
+
     opacity: var(--card-opacity-inactive);
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease, opacity 0.3s ease;
+
+    /* Mantiene las esquinas redondeadas al escalar */
+    border-radius: 12px;
+    overflow: hidden;
+
+    /* Recorte más estable durante las transformaciones */
+    clip-path: inset(0 round 12px);
+    -webkit-clip-path: inset(0 round 12px);
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .sma-card.is-active {
@@ -122,16 +134,16 @@ a {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: inherit;
     background: #222;
     position: relative;
 }
-
 .sma-card-bg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: inherit;
 }
 
 /* 8. Efecto shine (luz móvil) */
