@@ -79,9 +79,13 @@ a {
 .sma-track-container {
     width: 100%;
     overflow: hidden;
-    /* evita que las tarjetas fuera de vista generen scroll horizontal nativo */
+
+    /* Dejamos espacio para que la tarjeta activa pueda crecer
+       sin que el contenedor corte sus esquinas */
+    padding-top: 25px;
+    padding-bottom: 25px;
+
     touch-action: pan-y;
-    /* solo dejamos scroll vertical al navegador; el horizontal lo controla el JS */
 }
 
 .sma-track {
