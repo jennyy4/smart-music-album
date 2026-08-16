@@ -108,16 +108,10 @@ a {
     opacity: var(--card-opacity-inactive);
     transform: scale(var(--card-scale-inactive));
     transition: transform 0.3s ease, opacity 0.3s ease;
-
-    border-radius: 12px;
-    overflow: hidden;
-
-    /* Fuerza a que el navegador respete el recorte
-       aunque la tarjeta tenga transform: scale() */
-    isolation: isolate;
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
+
+/* TARJETA ACTIVA */
 .sma-card.is-active {
     opacity: 1;
     transform: scale(1.08);
@@ -125,20 +119,29 @@ a {
 }
 
 
-/* CONTENEDOR DE LA IMAGEN */
-.sma-card-bg {
+/* CAPA QUE RECORTA LAS ESQUINAS */
+.sma-card-clip {
     position: absolute;
     inset: 0;
 
     width: 100%;
     height: 100%;
 
-    border-radius: inherit;
+    border-radius: 12px;
     overflow: hidden;
 
-    /* Segundo nivel de seguridad para el recorte */
     clip-path: inset(0 round 12px);
     -webkit-clip-path: inset(0 round 12px);
+}
+
+
+/* FONDO */
+.sma-card-bg {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
 
     background: #222;
 }
@@ -151,8 +154,6 @@ a {
 
     object-fit: cover;
     display: block;
-
-    border-radius: inherit;
 }
 
 /* 9. Etiqueta inferior de tarjeta */
